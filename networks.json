@@ -1,0 +1,31 @@
+{
+  "mumbai": {
+    "AltrLicenseManager": {
+      "address": "0x8775563844C3f28e3e33553106cC560a5628B760"
+    },
+    "AltrNftCollectionFactory": {
+      "address": "0x9085E0cecd93Ea26F356d4253deFbb9c94dF8c65"
+    },
+    "AltrFeeManager": {
+      "address": "0x987a03a6493bEE5eC435e39729CcEA252193F09A"
+    },
+    "AltrNftCollateralRetriever": {
+      "address": "0x317DaBE8e27db338B1ebF545AF068bF443667484"
+    },
+    "AltrAllowList": {
+      "address": "0xdc7FB6F6B6a7B38906f563eDCA1ba319f1DA9360"
+    },
+    "AltrFractions": {
+      "address": "0x6CDB1F74006F41F270dae38779d30c1Bb266D292"
+    },
+    "AltrFractionsSale": {
+      "address": "0x01C6ab08615f6768942368313103Fb0f3cfB9D68"
+    },
+    "AltrFractionsBuyout": {
+      "address": "0x0A0084F91642e7Ac2Cd7d5CAE3E5e404d5343Ff3"
+    },
+    "AltrTradeChecker": {
+      "address": "0x25c9C06918ff2a048ba1dA0AaDF7962dD4518091"
+    }
+  }
+}

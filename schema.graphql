@@ -1,0 +1,118 @@
+type User @entity {
+  id: ID!
+  address: Bytes! #address
+  erc721Owned: [ERC721!]
+  erc1155: [ERC1155!]
+  erc1155Balance: [BigInt!] #uint256
+  allowed: Boolean!
+}
+
+type Oracle @entity {
+  id: ID!
+  address: Bytes! #address
+  erc721Owned: [ERC721!]
+  erc1155: [ERC1155!]
+  erc1155Balance: [BigInt!] #uint256
+  allowed: Boolean!
+  erc721: [Bytes!]! #address
+}
+
+type SpecialUser @entity {
+  id: ID!
+  address: Bytes! #address
+  erc721Owned: [ERC721!]
+  erc1155: [ERC1155!]
+  erc1155Balance: [BigInt!] #uint256
+  allowed: Boolean!
+  roles: [Role!]
+}
+
+type ERC721 @entity {
+  id: ID!
+  contractAddress: Bytes! #address
+  tokenId: BigInt! #uint256
+  owner: User!
+  approved: User
+  operators: [User!]
+  erc1155: ERC1155
+  transactionHistory: [Transaction!]
+}
+
+type ERC1155 @entity {
+  id: ID!
+  contractAddress: Bytes! #address
+  tokenId: BigInt! #uint256
+  supply: BigInt #uint256
+  owners: [User!]
+  ownersBalances: [BigInt!]
+  erc721: ERC721
+  transactionHistory: [Transaction!]
+}
+
+type Sale @entity {
+  id: ID!
+  openingTime: BigInt! #uint256
+  closingTime: BigInt! #uint256
+  saleId: BigInt! #uint256
+  isSuccessful: Boolean!
+  buyer: [User!]
+  seller: Oracle!
+  fractionPrice: BigInt! #uint256
+  fractionsAmount: BigInt! #uint256
+  fractionsSold: BigInt! #uint256
+  erc721: ERC721!
+  erc1155: ERC1155
+  sellerReleased: Boolean
+}
+
+type Buyout @entity {
+  id: ID!
+  buyoutId: BigInt! #uint256
+  erc1155: ERC1155!
+  openingTime: BigInt #uint256
+  closingTime: BigInt #uint256
+  isSuccessful: Boolean!
+  initiator: User! #address
+  buyoutPrice: BigInt
+  buyoutToken: Bytes #address
+  buyoutTokenManager: Bytes #address
+}
+
+type Transaction @entity {
+  id: ID!
+  transactionId: Bytes!
+  block: BigInt! #uint256
+  from: User!
+  to: User!
+  erc721: ERC721
+  erc1155: [ERC1155!]
+  erc1155Quantity: [BigInt!]
+  timestamp: BigInt!
+}
+
+type RedeemRequest @entity {
+  id: ID!
+  erc721: ERC721!
+  from: User!
+  operator: Bytes!
+}
+
+type Role @entity {
+  id: ID!
+  contract: Bytes! #address
+  name: Bytes! #bytes32
+  specialUsers: [SpecialUser!]
+}
+
+type Order0x @entity {
+  id: ID!
+  maker: User!
+  taker: User
+  direction: BigInt
+  nonce: BigInt!
+  cancelled: Boolean!
+  filled: Boolean!
+  timestamp: BigInt
+  token: Bytes #address
+  tokenAmount: BigInt
+}

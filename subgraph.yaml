@@ -1,0 +1,322 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: AltrLicenseManager
+    network: matic
+    source:
+      address: '0xf8F09D71C9E4257F86079DcDDd3bc16DfF83Ee0E'
+      abi: AltrLicenseManager
+      startBlock: 43053589
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - Role
+        - SpecialUser
+      abis:
+        - name: AltrLicenseManager
+          file: ./abis/AltrLicenseManager.json
+      eventHandlers:
+        - event: AltrLicenseManagerOwnershipTransferred(indexed address,indexed address)
+          handler: handleAltrLicenseManagerOwnershipTransferred
+      file: ./src/altr-license-manager.ts
+  - kind: ethereum
+    name: AltrNftCollectionFactory
+    network: matic
+    source:
+      address: '0x921efF6456E43E459Aba76b92a6B11EA1C896163'
+      abi: AltrNftCollectionFactory
+      startBlock: 43053589
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Role
+      abis:
+        - name: AltrNftCollectionFactory
+          file: ./abis/AltrNftCollectionFactory.json
+      eventHandlers:
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: CollectionCreated(indexed address,string,string,address)
+          handler: handleCollectionCreated
+      file: ./src/altr-nft-collection-factory.ts
+  - kind: ethereum
+    name: AltrFeeManager
+    network: matic
+    source:
+      address: '0xa5E4C7a4F563DD8212a7b976F7dB7d7A60177cCf'
+      abi: AltrFeeManager
+      startBlock: 43053589
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - User
+      abis:
+        - name: AltrFeeManager
+          file: ./abis/AltrFeeManager.json
+      eventHandlers:
+        - event: FeeReceived(indexed address,uint256,bytes)
+          handler: handleFeeReceived
+        - event: RebateReceived(indexed address,indexed address,uint256,bytes)
+          handler: handleRebateReceived
+        - event: Received(indexed address,uint256)
+          handler: handleReceived
+        - event: RedemptionFeePaid(indexed address,indexed uint256,indexed address,uint256)
+          handler: handleRedemptionFeePaid
+      file: ./src/altr-fee-manager.ts
+  - kind: ethereum
+    name: AltrNftCollateralRetriever
+    network: matic
+    source:
+      address: '0x3a11D691D35916b84FA32f7e2cD43b22c6344478'
+      abi: AltrNftCollateralRetriever
+      startBlock: 43053589
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - Role
+        - SpecialUser
+        - RedeemRequest
+      abis:
+        - name: AltrNftCollateralRetriever
+          file: ./abis/AltrNftCollateralRetriever.json
+      eventHandlers:
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: RedeemRequest(indexed address,indexed address,address,uint256)
+          handler: handleRedeemRequest
+      file: ./src/altr-nft-collateral-retriever.ts
+  - kind: ethereum
+    name: AltrAllowList
+    network: matic
+    source:
+      address: '0x77Cf845e7F9F423263C8538Fa75Cc8BDFB146b68'
+      abi: AltrAllowList
+      startBlock: 37026280
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - Role
+        - SpecialUser
+      abis:
+        - name: AltrAllowList
+          file: ./abis/AltrAllowList.json
+      eventHandlers:
+        - event: AddressesAllowed(address[])
+          handler: handleAddressesAllowed
+        - event: AddressesDisallowed(address[])
+          handler: handleAddressesDisallowed
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+      file: ./src/altr-allow-list.ts
+  - kind: ethereum
+    name: AltrFractions
+    network: matic
+    source:
+      address: '0xDDB849bb5f5ABe40f7E3a4E6BeD3912431089Fdc'
+      abi: AltrFractions
+      startBlock: 43053589
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - Role
+        - ERC1155
+        - Transaction
+        - SpecialUser
+      abis:
+        - name: AltrFractions
+          file: ./abis/AltrFractions.json
+      eventHandlers:
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: AltrFractionsRoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleAltrFractionsRoleGranted
+        - event: AltrFractionsRoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleAltrFractionsRoleRevoked
+        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+          handler: handleTransferBatch
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
+      file: ./src/altr-fractions.ts
+  - kind: ethereum
+    name: AltrFractionsSale
+    network: matic
+    source:
+      address: '0x8E21023d25f6F175e96b454920Bd3625D4ea28cb'
+      abi: AltrFractionsSale
+      startBlock: 43053589
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - Role
+        - Sale
+        - Oracle
+        - SpecialUser
+      abis:
+        - name: AltrFractionsSale
+          file: ./abis/AltrFractionsSale.json
+      eventHandlers:
+        - event: FailedSaleNftWithdrawn(indexed uint256,indexed address,indexed address,uint256)
+          handler: handleFailedSaleNftWithdrawn
+        - event: FractionsKeptWithdrawn(indexed uint256,indexed address,uint256)
+          handler: handleFractionsKeptWithdrawn
+        - event: FractionsPurchased(indexed uint256,indexed address,uint256)
+          handler: handleFractionsPurchased
+        - event: NewFractionsSale(indexed
+            uint256,(address,address,address,uint256,address,uint256,uint256,uint256,uint256,uint256,uint256,uint256),address)
+          handler: handleNewFractionsSale
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleAltrFractionsSaleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleAltrFractionsSaleRoleRevoked
+      file: ./src/altr-fractions-sale.ts
+  - kind: ethereum
+    name: AltrFractionsBuyout
+    network: matic
+    source:
+      address: '0x34cc8D9d6d5A0f82C59b1dd9A15810da824771AE'
+      abi: AltrFractionsBuyout
+      startBlock: 43053589
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Role
+        - User
+        - SpecialUser
+        - Buyout
+        - Sale
+      abis:
+        - name: AltrFractionsBuyout
+          file: ./abis/AltrFractionsBuyout.json
+      eventHandlers:
+        - event: BuyoutExecuted(indexed uint256,indexed address,uint256,uint256,address,uint256)
+          handler: handleBuyoutExecuted
+        - event: BuyoutParamsSet(indexed
+            uint256,(address,uint256,address,address,uint256,uint256,uint256,uint256,bool))
+          handler: handleBuyoutParamsSet
+        - event: BuyoutRequested(indexed uint256,indexed address,indexed uint256)
+          handler: handleBuyoutRequested
+        - event:
+            AltrFractionsBuyoutRoleGranted(indexed bytes32,indexed address,indexed
+            address)
+          handler: handleAltrFractionsBuyoutRoleGranted
+        - event:
+            AltrFractionsBuyoutRoleRevoked(indexed bytes32,indexed address,indexed
+            address)
+          handler: handleAltrFractionsBuyoutRoleRevoked
+      file: ./src/altr-fractions-buyout.ts
+  - kind: ethereum
+    name: ZeroEx
+    network: matic
+    source:
+      address: '0xDef1C0ded9bec7F1a1670819833240f027b25EfF'
+      abi: ZeroEx
+      startBlock: 43053589
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Order0x
+        - User
+        - ERC721
+      abis:
+        - name: ZeroEx
+          file: ./abis/ZeroEx.json
+      eventHandlers:
+        - event: ERC721OrderCancelled(address,uint256)
+          handler: handleERC721OrderCancelled
+        - event: ERC721OrderFilled(uint8,address,address,uint256,address,uint256,address,uint256,address)
+          handler: handleERC721OrderFilled
+      file: ./src/zero-ex.ts
+templates:
+  - kind: ethereum
+    name: AltrNftCollection
+    network: matic
+    source:
+      abi: AltrNftCollection
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - Transaction
+        - ERC721
+      abis:
+        - name: AltrNftCollection
+          file: ./abis/AltrNftCollection.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+      file: ./src/altr-nft-collection.ts
+  - kind: ethereum
+    name: TimedTokenSplitter
+    network: matic
+    source:
+      abi: TimedTokenSplitter
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Sale
+      abis:
+        - name: TimedTokenSplitter
+          file: ./abis/TimedTokenSplitter.json
+      eventHandlers:
+        - event: TokensSellerReleased(address,address,uint256,uint256)
+          handler: handleTokensSellerReleased
+        - event: TokensReleased(address[],indexed address,indexed address,uint256,uint256[],uint256)
+          handler: handleTokensReleased
+      file: ./src/timed-token-splitter.ts
+  - kind: ethereum
+    name: TokenSplitter
+    network: matic
+    source:
+      abi: TokenSplitter
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - User
+      abis:
+        - name: TokenSplitter
+          file: ./abis/TokenSplitter.json
+      eventHandlers:
+        - event: TokensReleased(address[],indexed address,indexed address,uint256,uint256[],uint256)
+          handler: handleTokensReleased
+      file: ./src/token-splitter.ts

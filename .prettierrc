@@ -1,0 +1,12 @@
+{
+  "overrides": [
+    {
+      "files": "*.yaml",
+      "options": {
+        "semi": true,
+        "bracketSpacing": false,
+        "singleQuote": true
+      }
+    }
+  ]
+}

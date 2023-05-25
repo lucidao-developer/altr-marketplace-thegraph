@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "noLib": false,
+    "lib": ["ES2015"],
+    "types": ["node"]
+  },
+  "extends": "@graphprotocol/graph-ts/types/tsconfig.base.json",
+  "include": ["src/**.ts", "scripts"]
+}

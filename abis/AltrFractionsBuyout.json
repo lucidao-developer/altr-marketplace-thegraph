@@ -1,0 +1,718 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract IFractions",
+        "name": "_altrFractions",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IFractionsSale",
+        "name": "_altrFractionsSale",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_feeManager",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_buyoutMinFractions",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_buyoutOpenTimePeriod",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "buyoutId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "executor",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "boughtOutFractions",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "buyoutAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "Fractions",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "BuyoutExecuted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "buyoutMinFractions",
+        "type": "uint256"
+      }
+    ],
+    "name": "BuyoutMinFractionsSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "buyoutOpenTimePeriod",
+        "type": "uint256"
+      }
+    ],
+    "name": "BuyoutOpenTimePeriodSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "buyoutId",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "initiator",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fractionSaleId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "buyoutTokenManager",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IERC20",
+            "name": "buyoutToken",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "buyoutPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "openingTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "closingTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fractionsToBuyout",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "isSuccessful",
+            "type": "bool"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct AltrFractionsBuyout.Buyout",
+        "name": "buyout",
+        "type": "tuple"
+      }
+    ],
+    "name": "BuyoutParamsSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "saleId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "initiator",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "buyoutId",
+        "type": "uint256"
+      }
+    ],
+    "name": "BuyoutRequested",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "feeManager",
+        "type": "address"
+      }
+    ],
+    "name": "FeeManagerSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "previousAdminRole",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "newAdminRole",
+        "type": "bytes32"
+      }
+    ],
+    "name": "RoleAdminChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      }
+    ],
+    "name": "AltrFractionsBuyoutRoleGranted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      }
+    ],
+    "name": "AltrFractionsBuyoutRoleRevoked",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "BURN_MANAGER_ROLE",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "DEFAULT_ADMIN_ROLE",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "altrFractions",
+    "outputs": [
+      {
+        "internalType": "contract IFractions",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "altrFractionsSale",
+    "outputs": [
+      {
+        "internalType": "contract IFractionsSale",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "buyoutMinFractions",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "buyoutOpenTimePeriod",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "saleId",
+        "type": "uint256"
+      }
+    ],
+    "name": "buyoutUnsupervised",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "buyouts",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "initiator",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "fractionSaleId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "buyoutTokenManager",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IERC20",
+        "name": "buyoutToken",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "buyoutPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "openingTime",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "closingTime",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "fractionsToBuyout",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isSuccessful",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "buyoutsCounter",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "buyoutInitiator",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "saleId",
+        "type": "uint256"
+      }
+    ],
+    "name": "canDoBuyout",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "buyoutId",
+        "type": "uint256"
+      }
+    ],
+    "name": "executeBuyout",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "feeManager",
+    "outputs": [
+      {
+        "internalType": "contract IFeeManager",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      }
+    ],
+    "name": "getRoleAdmin",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "grantRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "hasRole",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "buyoutId",
+        "type": "uint256"
+      }
+    ],
+    "name": "isBeforeBuyoutOpen",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "buyoutId",
+        "type": "uint256"
+      }
+    ],
+    "name": "isBuyoutOpen",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "renounceRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "saleId",
+        "type": "uint256"
+      }
+    ],
+    "name": "requestBuyout",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "revokeRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_buyoutMinFractions",
+        "type": "uint256"
+      }
+    ],
+    "name": "setBuyoutMinFractions",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_buyoutOpenTimePeriod",
+        "type": "uint256"
+      }
+    ],
+    "name": "setBuyoutOpenTimePeriod",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "buyoutId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "buyoutPrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "setBuyoutParams",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_feeManager",
+        "type": "address"
+      }
+    ],
+    "name": "setFeeManager",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes4",
+        "name": "interfaceId",
+        "type": "bytes4"
+      }
+    ],
+    "name": "supportsInterface",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
