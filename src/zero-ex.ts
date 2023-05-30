@@ -85,7 +85,7 @@ export function handleERC1155OrderFilled(event: ERC1155OrderFilled): void {
         filledOrder.nftTokenFilledAmount = event.params.erc1155FillAmount;
     } else {
         filledOrder.erc20FilledAmount = filledOrder.erc20FilledAmount!.plus(event.params.erc20FillAmount);
-        filledOrder.nftTokenFilledAmount = filledOrder.nftTokenFilledAmount!.plus(event.params.erc20FillAmount);
+        filledOrder.nftTokenFilledAmount = filledOrder.nftTokenFilledAmount!.plus(event.params.erc1155FillAmount);
     }
 
     taker.save();
