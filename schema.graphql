@@ -113,6 +113,9 @@ type Order0x @entity {
   cancelled: Boolean!
   filled: Boolean!
   timestamp: BigInt
-  token: Bytes #address
-  tokenAmount: BigInt
+  erc20Token: Bytes #address
+  erc20FilledAmount: BigInt
+  nftToken: Bytes #address
+  nftTokenId: BigInt
+  nftTokenFilledAmount: BigInt
 }

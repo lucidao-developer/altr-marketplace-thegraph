@@ -252,6 +252,11 @@ dataSources:
           handler: handleERC721OrderCancelled
         - event: ERC721OrderFilled(uint8,address,address,uint256,address,uint256,address,uint256,address)
           handler: handleERC721OrderFilled
+        - event: ERC1155OrderFilled(uint8,address,address,uint256,address,uint256,address,uint256,uint128,address)
+          handler: handleERC1155OrderFilled
+        - event: ERC1155OrderCancelled(address,uint256)
+          handler: handleERC1155OrderCancelled
+
       file: ./src/zero-ex.ts
 templates:
   - kind: ethereum
