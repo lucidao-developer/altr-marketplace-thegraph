@@ -115,7 +115,21 @@ type Order0x @entity {
   timestamp: BigInt
   erc20Token: Bytes #address
   erc20FilledAmount: BigInt
+  nftTokenType: String
   nftToken: Bytes #address
   nftTokenId: BigInt
   nftTokenFilledAmount: BigInt
+}
+
+type Transaction0x @entity {
+  id: ID!
+  transactionId: Bytes!
+  order: Order0x!
+  erc20Token: Bytes!
+  erc20TokenAmount: BigInt!
+  nftTokenType: String!
+  nftToken: Bytes!
+  nftTokenId: BigInt!
+  nftTokenAmount: BigInt!
+  timestamp: BigInt!
 }
