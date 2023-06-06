@@ -110,7 +110,7 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
     if (fromUserErc1155Index != -1) {
       fromUserErc1155Balance![fromUserErc1155Index] = fromUserErc1155Balance![fromUserErc1155Index].minus(event.params.values[i]);
       if (fromUserErc1155Balance![fromUserErc1155Index].isZero()) {
-        fromUserErc1155Balance!.splice(toUserErc1155Index, 1);
+        fromUserErc1155Balance!.splice(fromUserErc1155Index, 1);
         fromUserErc1155!.splice(fromUserErc1155Index, 1);
       }
     }
@@ -208,7 +208,7 @@ export function handleTransferSingle(event: TransferSingleEvent): void {
   if (fromUserErc1155Index != -1) {
     fromUserErc1155Balance![fromUserErc1155Index] = fromUserErc1155Balance![fromUserErc1155Index].minus(event.params.value);
     if (fromUserErc1155Balance![fromUserErc1155Index].isZero()) {
-      fromUserErc1155Balance!.splice(toUserErc1155Index, 1);
+      fromUserErc1155Balance!.splice(fromUserErc1155Index, 1);
       fromUserErc1155!.splice(fromUserErc1155Index, 1);
     }
   }
