@@ -5,7 +5,7 @@ import {
   RoleRevoked as RoleRevokedEvent
 } from "../generated/AltrAllowList/AltrAllowList";
 import { grantRole, revokeRole } from "./utils/role-management";
-import { getOrCreateUser } from "./utils/user";
+import { getOrCreateUser } from "./utils/entity";
 
 export function handleAddressesAllowed(event: AddressesAllowedEvent): void {
   const allowedAddresses = event.params.addresses;
@@ -28,7 +28,6 @@ export function handleAddressesDisallowed(
     let user = getOrCreateUser(userId, disallowedAddress);
     user.allowed = false;
     user.save();
-
   }
 }
 

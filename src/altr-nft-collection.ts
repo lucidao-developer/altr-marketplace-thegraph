@@ -1,5 +1,4 @@
-import { Address } from "@graphprotocol/graph-ts";
-import { ERC721, Transaction } from "../generated/schema";
+import { ERC721 } from "../generated/schema";
 import {
   Approval,
   ApprovalForAll,
@@ -8,9 +7,16 @@ import {
   Transfer
 } from "../generated/templates/AltrNftCollection/AltrNftCollection";
 import { grantRole, revokeRole } from "./utils/role-management";
-import { getOrCreateUser } from "./utils/user";
-import { removeFromArray } from "./utils/array";
-import { approvalForAllERC721False, approvalForAllERC721True } from "./utils/approval";
+import {
+  createTransaction,
+  getOrCreateERC721,
+  getOrCreateUser
+} from "./utils/entity";
+import { pushToArray, removeFromArray } from "./utils/array";
+import {
+  approvalForAllERC721False,
+  approvalForAllERC721True
+} from "./utils/approval";
 
 export function handleApproval(event: Approval): void {
   const ERC721Id = `${event.address.toHexString()}${event.params.tokenId}`;
@@ -35,41 +41,28 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 export function handleTransfer(event: Transfer): void {
   const ERC721Id = `${event.address.toHexString()}${event.params.tokenId}`;
   const toUserId = event.params.to.toHexString();
-  const fromUserId = event.params.from.toHexString()
-  let erc721 = ERC721.load(ERC721Id);
+  const fromUserId = event.params.from.toHexString();
+  let erc721 = getOrCreateERC721(event.address, event.params.tokenId);
   let toUser = getOrCreateUser(toUserId, event.params.to);
   let fromUser = getOrCreateUser(fromUserId, event.params.from);
 
-  let transaction = new Transaction(event.transaction.hash.toHexString());
-  transaction.transactionId = event.transaction.hash;
-  transaction.block = event.block.number;
-  transaction.timestamp = event.block.timestamp;
-  transaction.from = event.params.from.toHexString();
-  transaction.to = event.params.to.toHexString();
+  let transaction = createTransaction(event, fromUserId, toUserId);
 
-  if (event.params.from == Address.zero() || erc721 == null) {
-    erc721 = new ERC721(ERC721Id);
-    erc721.contractAddress = event.address;
-    erc721.tokenId = event.params.tokenId;
-  }
   erc721.owner = toUserId;
   erc721.approved = null;
   erc721.operators = [];
   transaction.erc721 = erc721.id;
 
-  let toUserErc721 = toUser.erc721Owned ? toUser.erc721Owned : [];
-  toUserErc721!.push(erc721.id);
-  toUser.erc721Owned = toUserErc721;
+  toUser.erc721Owned = pushToArray(toUser.erc721Owned, erc721.id);
 
   if (fromUser.erc721Owned != null) {
     fromUser.erc721Owned = removeFromArray(fromUser.erc721Owned!, ERC721Id);
   }
 
-  let transactionHistory = erc721.transactionHistory
-    ? erc721.transactionHistory
-    : [];
-  transactionHistory!.push(transaction.id);
-  erc721.transactionHistory = transactionHistory;
+  erc721.transactionHistory = pushToArray(
+    erc721.transactionHistory,
+    transaction.id
+  );
 
   toUser.save();
   fromUser.save();

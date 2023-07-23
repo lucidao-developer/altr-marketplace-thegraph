@@ -1,11 +1,9 @@
 import { ApprovalForAll } from "../../generated/AltrFractions/AltrFractions";
 import { ApprovalForAll as ApprovalForAllERC721 } from "../../generated/templates/AltrNftCollection/AltrNftCollection";
 import { ERC1155, ERC721 } from "../../generated/schema";
-import { removeFromArray } from "./array";
+import { pushToArray, removeFromArray } from "./array";
 
-export function approvalForAllERC721True(
-  event: ApprovalForAllERC721
-): void {
+export function approvalForAllERC721True(event: ApprovalForAllERC721): void {
   let i = 1;
   while (true) {
     const ERC721Id = `${event.address.toHexString()}${i}`;
@@ -13,17 +11,17 @@ export function approvalForAllERC721True(
     if (erc721 == null) {
       return;
     }
-    let operators = erc721.operators || [];
-    operators!.push(event.params.operator.toHexString());
-    erc721.operators = operators;
+
+    erc721.operators = pushToArray(
+      erc721.operators,
+      event.params.operator.toHexString()
+    );
     erc721.save();
     i++;
   }
 }
 
-export function approvalForAllERC721False(
-  event: ApprovalForAllERC721
-): void {
+export function approvalForAllERC721False(event: ApprovalForAllERC721): void {
   let i = 1;
   while (true) {
     const ERC721Id = `${event.address.toHexString()}${i}`;
@@ -34,7 +32,10 @@ export function approvalForAllERC721False(
     if (!erc721.operators) {
       break;
     }
-    erc721.operators = removeFromArray(erc721.operators!, event.params.operator.toHexString());
+    erc721.operators = removeFromArray(
+      erc721.operators!,
+      event.params.operator.toHexString()
+    );
     erc721.save();
     i++;
   }

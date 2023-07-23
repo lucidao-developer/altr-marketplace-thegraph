@@ -1,28 +1,41 @@
-export function removeFromArray(array: string[], element: string): string[] {
-    let index = searchString(array, element);
+export function removeFromArray<T>(array: T[] | null, element: T): T[] {
+  if (array === null) {
+    array = [];
+  }
 
-    if (index != -1) {
-        array.splice(index, 1);
-    }
-    return array;
+  let index = search(array, element);
+
+  if (index != -1) {
+    array.splice(index, 1);
+  }
+  return array;
 }
 
-export function searchString(array: string[], element: string): i32 {
-    let index = -1;
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] == element) {
-            index = i;
-        }
-    }
-    return index as i32;
+export function removeFromArrayByIndex<T>(array: T[] | null, index: i32): T[] {
+  if (array === null) {
+    array = [];
+  }
+  array.splice(index, 1);
+  return array;
 }
 
-export function searchNumber(array: number[], element: number): i32 {
-    let index = -1;
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] == element) {
-            index = i;
-        }
+export function search<T>(array: T[] | null, element: T): i32 {
+  let index = -1;
+  if (array === null) {
+    array = [];
+  }
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] == element) {
+      index = i;
     }
-    return index as i32;
+  }
+  return index as i32;
+}
+
+export function pushToArray<T>(array: T[] | null, element: T): T[] {
+  if (array === null) {
+    array = [];
+  }
+  array.push(element);
+  return array;
 }
