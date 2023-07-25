@@ -21,12 +21,19 @@ export function grantRole(
 }
 
 export function revokeRole(userId: string, roleId: string): void {
-  let specialUser = SpecialUser.load(userId);
-  let role = Role.load(roleId);
+  let specialUser = getOrCreateSpecialUser(
+    userId,
+    Address.fromBytes(Address.fromHexString(userId))
+  );
+  const contractAddress = Address.fromBytes(
+    Address.fromHexString(roleId.slice(0, 42))
+  );
+  const roleName = Bytes.fromHexString(roleId.slice(42));
+  let role = getOrCreateRole(contractAddress, roleName);
 
-  role!.specialUsers = removeFromArray(role!.specialUsers, specialUser!.id);
-  specialUser!.roles = removeFromArray(specialUser!.roles, roleId);
+  role.specialUsers = removeFromArray(role.specialUsers, specialUser.id);
+  specialUser.roles = removeFromArray(specialUser.roles, roleId);
 
-  specialUser!.save();
-  role!.save();
+  specialUser.save();
+  role.save();
 }
