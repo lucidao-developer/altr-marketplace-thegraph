@@ -84,9 +84,11 @@ export function manageFractionsBalance(
       erc1155Quantity
     );
   } else {
-    erc1155.ownersBalances![toUserIndex] = erc1155.ownersBalances![
-      toUserIndex
-    ].plus(erc1155Quantity);
+    let balance = erc1155.ownersBalances![toUserIndex];
+    balance = balance.plus(erc1155Quantity);
+    const ownersBalances = erc1155.ownersBalances;
+    ownersBalances![toUserIndex] = balance;
+    erc1155.ownersBalances = ownersBalances;
   }
 
   const fromUserIndex = search(erc1155.owners, fromUser.id);
@@ -116,9 +118,11 @@ export function manageFractionsBalance(
 
   let toUserErc1155Index = search(toUser.erc1155, erc1155.id);
   if (toUserErc1155Index != -1) {
-    toUser.erc1155Balance![toUserErc1155Index] = toUser.erc1155Balance![
-      toUserErc1155Index
-    ].plus(erc1155Quantity);
+    let balance = toUser.erc1155Balance![toUserErc1155Index];
+    balance = balance.plus(erc1155Quantity);
+    const toUserErc1155Balances = toUser.erc1155Balance;
+    toUserErc1155Balances![toUserErc1155Index] = balance;
+    toUser.erc1155Balance = toUserErc1155Balances;
   } else {
     toUser.erc1155 = pushToArray(toUser.erc1155, erc1155.id);
     toUser.erc1155Balance = pushToArray(toUser.erc1155Balance, erc1155Quantity);
