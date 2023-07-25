@@ -120,18 +120,8 @@ describe("Describe entity assertions", () => {
     assert.fieldEquals("Sale", saleId, "saleId", `${saleNumber}`);
     assert.fieldEquals("Sale", saleId, "isSuccessful", "false");
     assert.fieldEquals("Sale", saleId, "seller", address.toHexString());
-    assert.fieldEquals(
-      "Sale",
-      saleId,
-      "fractionPrice",
-      `${fractionPrice}`
-    );
-    assert.fieldEquals(
-      "Sale",
-      saleId,
-      "fractionsAmount",
-      `${fractionsAmount}`
-    );
+    assert.fieldEquals("Sale", saleId, "fractionPrice", `${fractionPrice}`);
+    assert.fieldEquals("Sale", saleId, "fractionsAmount", `${fractionsAmount}`);
     assert.fieldEquals("Sale", saleId, "fractionsSold", "0");
   });
   test("Role Granted", () => {
@@ -144,11 +134,7 @@ describe("Describe entity assertions", () => {
     const sender = Address.fromString(
       "0x0000000000000000000000000000000000000002"
     );
-    const newRoleGratedEvent = createRoleGrantedEvent(
-      role,
-      address,
-      sender
-    );
+    const newRoleGratedEvent = createRoleGrantedEvent(role, address, sender);
     handleAltrFractionsSaleRoleGranted(newRoleGratedEvent);
     assert.entityCount("SpecialUser", 1);
     assert.entityCount("Role", 1);
@@ -175,19 +161,11 @@ describe("Describe entity assertions", () => {
     const sender = Address.fromString(
       "0x0000000000000000000000000000000000000002"
     );
-    const newRoleGratedEvent = createRoleGrantedEvent(
-      role,
-      address,
-      sender
-    );
+    const newRoleGratedEvent = createRoleGrantedEvent(role, address, sender);
     handleAltrFractionsSaleRoleGranted(newRoleGratedEvent);
     assert.entityCount("SpecialUser", 1);
     assert.entityCount("Role", 1);
-    const newRoleRevokedEvent = createRoleRevokedEvent(
-      role,
-      address,
-      sender
-    );
+    const newRoleRevokedEvent = createRoleRevokedEvent(role, address, sender);
     handleAltrFractionsSaleRoleRevoked(newRoleRevokedEvent);
     assert.entityCount("SpecialUser", 1);
     assert.entityCount("Role", 1);

@@ -1,6 +1,5 @@
-import { Role, SpecialUser, User } from "../../generated/schema";
 import { Address, Bytes } from "@graphprotocol/graph-ts";
-import { pushToArray, removeFromArray, search } from "./array";
+import { pushToArray, removeFromArray } from "./array";
 import { getOrCreateRole, getOrCreateSpecialUser } from "./entity";
 
 export function grantRole(

@@ -3,8 +3,6 @@ import {
   describe,
   test,
   clearStore,
-  beforeAll,
-  afterAll,
   afterEach
 } from "matchstick-as/assembly/index";
 import { handleAltrLicenseManagerOwnershipTransferred } from "../src/altr-license-manager";
@@ -18,9 +16,6 @@ describe("Describe entity assertions", () => {
   afterEach(() => {
     clearStore();
   });
-
-  // For more test scenarios, see:
-  // https://thegraph.com/docs/en/developer/matchstick/#write-a-unit-test
 
   test("Ownership Transferred", () => {
     const previousOwner = Address.fromString(
@@ -37,9 +32,7 @@ describe("Describe entity assertions", () => {
       previousOwner,
       newOwner
     );
-    handleAltrLicenseManagerOwnershipTransferred(
-      newOwnershipTransferredEvent
-    );
+    handleAltrLicenseManagerOwnershipTransferred(newOwnershipTransferredEvent);
     assert.entityCount("SpecialUser", 2);
     assert.entityCount("Role", 1);
     assert.fieldEquals(
@@ -54,6 +47,11 @@ describe("Describe entity assertions", () => {
       "specialUsers",
       `[${newOwner.toHexString()}]`
     );
-    assert.fieldEquals("SpecialUser", previousOwner.toHexString(), "roles", `[]`);
+    assert.fieldEquals(
+      "SpecialUser",
+      previousOwner.toHexString(),
+      "roles",
+      `[]`
+    );
   });
 });

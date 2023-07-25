@@ -8,14 +8,13 @@ import {
   handleTokensReleased
 } from "../src/timed-token-splitter";
 import { createSale } from "../src/utils/sale";
-import { getOrCreateUser } from "../src/utils/user";
+import { getOrCreateUser } from "../src/utils/entity";
 import {
   assert,
   describe,
   test,
   clearStore,
-  afterEach,
-  logStore
+  afterEach
 } from "matchstick-as/assembly/index";
 import { ERC1155 } from "../generated/schema";
 

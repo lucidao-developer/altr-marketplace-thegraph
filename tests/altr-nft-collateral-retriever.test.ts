@@ -3,7 +3,8 @@ import {
   describe,
   test,
   clearStore,
-  afterEach
+  afterEach,
+  logStore
 } from "matchstick-as/assembly/index";
 import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts";
 import {
@@ -52,7 +53,12 @@ describe("Nft Collateral Retriever", () => {
       "specialUsers",
       `[${newOwner.toHexString()}]`
     );
-    assert.fieldEquals("SpecialUser", previousOwner.toHexString(), "roles", `[]`);
+    assert.fieldEquals(
+      "SpecialUser",
+      previousOwner.toHexString(),
+      "roles",
+      `[]`
+    );
   });
 
   test("Redeem Request", () => {

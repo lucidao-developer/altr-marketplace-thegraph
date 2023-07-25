@@ -1,4 +1,4 @@
-import { Address, BigInt, TypedMap } from "@graphprotocol/graph-ts";
+import { Address, BigInt, TypedMap, log } from "@graphprotocol/graph-ts";
 import { ERC1155, Transaction, User } from "../../generated/schema";
 import {
   pushToArray,
@@ -31,7 +31,7 @@ export function createFractions(owner: Address): ERC1155 {
   erc1155.contractAddress = contractAddress;
   erc1155.supply = BigInt.fromI32(100);
   erc1155.tokenId = fractionsId;
-  erc1155.erc721 = `${contractAddress}2`;
+  erc1155.erc721 = `${contractAddress.toHexString()}2`;
   erc1155.owners = [owner.toHexString()];
   erc1155.ownersBalances = [BigInt.fromI32(10)];
   erc1155.save();
@@ -91,15 +91,18 @@ export function manageFractionsBalance(
 
   const fromUserIndex = search(erc1155.owners, fromUser.id);
   if (fromUserIndex != -1) {
-    erc1155.ownersBalances![fromUserIndex] = erc1155.ownersBalances![
-      fromUserIndex
-    ].minus(erc1155Quantity);
-    if (erc1155.ownersBalances![fromUserIndex].isZero()) {
+    let balance = erc1155.ownersBalances![fromUserIndex];
+    balance = balance.minus(erc1155Quantity);
+    if (balance.isZero()) {
       erc1155.owners = removeFromArray(erc1155.owners, fromUser.id);
       erc1155.ownersBalances = removeFromArrayByIndex(
         erc1155.ownersBalances,
         fromUserIndex
       );
+    } else {
+      const ownersBalances = erc1155.ownersBalances;
+      ownersBalances![fromUserIndex] = balance;
+      erc1155.ownersBalances = ownersBalances;
     }
   }
 
@@ -123,15 +126,18 @@ export function manageFractionsBalance(
 
   let fromUserErc1155Index = search(fromUser.erc1155, erc1155.id);
   if (fromUserErc1155Index != -1) {
-    fromUser.erc1155Balance![fromUserErc1155Index] = fromUser.erc1155Balance![
-      fromUserErc1155Index
-    ].minus(erc1155Quantity);
-    if (fromUser.erc1155Balance![fromUserErc1155Index].isZero()) {
+    let balance = fromUser.erc1155Balance![fromUserErc1155Index];
+    balance = balance.minus(erc1155Quantity);
+    if (balance.isZero()) {
       fromUser.erc1155 = removeFromArray(fromUser.erc1155, erc1155.id);
       fromUser.erc1155Balance = removeFromArrayByIndex(
         fromUser.erc1155Balance,
-        fromUserIndex
+        fromUserErc1155Index
       );
+    } else {
+      const ownersBalances = fromUser.erc1155Balance;
+      ownersBalances![fromUserErc1155Index] = balance;
+      fromUser.erc1155Balance = ownersBalances;
     }
   }
 

@@ -20,7 +20,6 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
   const roleId = `${contractAddress.toHexString()}${roleName.toHexString()}`;
   grantRole(contractAddress, newOwner, roleName);
   revokeRole(previousOwner.id, roleId);
-  previousOwner.save();
 }
 
 export function handleCollectionCreated(event: CollectionCreated): void {

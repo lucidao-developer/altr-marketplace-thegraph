@@ -21,7 +21,7 @@ import {
   createTransferBatchEvent,
   createTransferSingleEvent
 } from "./altr-fractions-utils";
-import { getOrCreateUser } from "../src/utils/user";
+import { getOrCreateUser } from "../src/utils/entity";
 import { createFractions } from "../src/utils/fractions";
 
 const address = Address.fromString(
@@ -38,8 +38,11 @@ describe("Describe entity assertions", () => {
     const operatorAddress = Address.fromString(
       "0x0000000000000000000000000000000000000002"
     );
-    const operator = getOrCreateUser(operatorAddress.toHexString(), operatorAddress);
-    operator.save()
+    const operator = getOrCreateUser(
+      operatorAddress.toHexString(),
+      operatorAddress
+    );
+    operator.save();
     const contractAddress = "0xa16081f360e3847006db660bae1c6d1b2e17ec2a";
     const newApprovalForAllEvent = createApprovalForAllEvent(
       address,
@@ -134,6 +137,7 @@ describe("Describe entity assertions", () => {
       BigInt.fromI32(10)
     );
     handleTransferSingle(newTransferSingleEvent);
+    logStore();
     assert.entityCount("Transaction", 1);
     assert.fieldEquals(
       "Transaction",
@@ -160,8 +164,18 @@ describe("Describe entity assertions", () => {
       "erc1155Balance",
       `[${BigInt.fromI32(10)}]`
     );
-    assert.fieldEquals("ERC1155", erc1155.id, "owners", `[${to.toHexString()}]`);
-    assert.fieldEquals("ERC1155", erc1155.id, "ownersBalances", `[${BigInt.fromI32(10)}]`)
+    assert.fieldEquals(
+      "ERC1155",
+      erc1155.id,
+      "owners",
+      `[${to.toHexString()}]`
+    );
+    assert.fieldEquals(
+      "ERC1155",
+      erc1155.id,
+      "ownersBalances",
+      `[${BigInt.fromI32(10)}]`
+    );
   });
 
   test("Transfer Batch", () => {

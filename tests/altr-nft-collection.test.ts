@@ -21,7 +21,7 @@ import {
   createRoleRevokedEvent,
   createTransferEvent
 } from "./altr-nft-collection-utils";
-import { getOrCreateUser } from "../src/utils/user";
+import { getOrCreateUser } from "../src/utils/entity";
 
 const address = Address.fromString(
   "0x0000000000000000000000000000000000000001"
@@ -123,8 +123,11 @@ describe("Nft Collection", () => {
     const operatorAddress = Address.fromString(
       "0x0000000000000000000000000000000000000002"
     );
-    const operator = getOrCreateUser(operatorAddress.toHexString(), operatorAddress);
-    operator.save()
+    const operator = getOrCreateUser(
+      operatorAddress.toHexString(),
+      operatorAddress
+    );
+    operator.save();
     const contractAddress = "0xa16081f360e3847006db660bae1c6d1b2e17ec2a";
     const erc721 = createCollection(
       Address.fromString(contractAddress),
@@ -154,7 +157,12 @@ describe("Nft Collection", () => {
     user.save();
     handleTransfer(newTransferEvent);
     assert.fieldEquals("ERC721", erc721Id, "owner", to.toHexString());
-    assert.fieldEquals("User", to.toHexString(), "erc721Owned", `[${erc721Id}]`);
+    assert.fieldEquals(
+      "User",
+      to.toHexString(),
+      "erc721Owned",
+      `[${erc721Id}]`
+    );
     assert.fieldEquals("User", address.toHexString(), "erc721Owned", `[]`);
     assert.fieldEquals(
       "ERC721",
