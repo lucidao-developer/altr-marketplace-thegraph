@@ -8,7 +8,7 @@ import {
   Transaction,
   User
 } from "../../generated/schema";
-import { NewFractionsSale } from "../../generated/FakeAltroFractionsSale/FakeAltroFractionsSale";
+import { NewFractionsSale } from "../../generated/AltrFractionsSale/AltrFractionsSale";
 import { getSupplyFromPrice } from "./fractions";
 
 export function getOrCreateUser(userId: string, address: Address): User {
