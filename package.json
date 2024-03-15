@@ -3,10 +3,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "prepare-testnet": "source .env.development && ts-node ./scripts/prepareTestnet.ts && mustache config/mumbai.json subgraph.template.yaml > subgraph.yaml && graph auth --product hosted-service $TOKEN",
-    "prepare-mainnet": "source .env.production && ts-node ./scripts/prepareProd.ts && mustache config/polygon.json subgraph.template.yaml > subgraph.yaml && graph auth --product hosted-service $TOKEN",
+    "prepare-mainnet": "bash -c '. .env.production && ts-node ./scripts/prepareProd.ts && mustache config/polygon.json subgraph.template.yaml > subgraph.yaml && graph auth --product hosted-service $TOKEN'",
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy-mainnet": "source .env.production && graph deploy --node https://api.thegraph.com/deploy/ $NAME",
+    "deploy-mainnet": "bash -c '. .env.production && graph deploy --node https://api.thegraph.com/deploy/ $NAME'",
     "deploy-testnet": "source .env.development && graph deploy --node https://api.thegraph.com/deploy/ $NAME",
     "create-local": "graph create --node http://localhost:8020/ $NAME",
     "remove-local": "graph remove --node http://localhost:8020/ $NAME",
@@ -14,14 +14,14 @@
     "test": "graph test"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.33.0",
-    "@graphprotocol/graph-ts": "0.27.0",
+    "@graphprotocol/graph-cli": "0.68.5",
+    "@graphprotocol/graph-ts": "0.33.0",
     "mustache": "^4.2.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18",
-    "matchstick-as": "^0.5.0"
+    "@types/node": "^20.11.28",
+    "matchstick-as": "^0.6.0"
   }
 }
