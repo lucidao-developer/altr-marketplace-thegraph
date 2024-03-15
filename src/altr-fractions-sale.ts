@@ -8,7 +8,11 @@ import {
 } from "../generated/AltrFractionsSale/AltrFractionsSale";
 import { ERC721, Sale } from "../generated/schema";
 import { grantRole, revokeRole } from "./utils/role-management";
-import { getOrCreateERC1155, getOrCreateSale } from "./utils/entity";
+import {
+  getOrCreateERC1155,
+  getOrCreateERC721,
+  getOrCreateSale
+} from "./utils/entity";
 
 export function handleFailedSaleNftWithdrawn(
   event: FailedSaleNftWithdrawnEvent
@@ -47,8 +51,11 @@ export function handleNewFractionsSale(event: NewFractionsSaleEvent): void {
 
   let sale = getOrCreateSale(saleId, erc721Id, event);
 
-  let erc721 = ERC721.load(erc721Id);
-  erc721!.erc1155 = erc1155Id;
+  let erc721 = getOrCreateERC721(
+    event.params.fractionsSale.nftCollection,
+    event.params.fractionsSale.nftId
+  );
+  erc721.erc1155 = erc1155Id;
 
   let erc1155 = getOrCreateERC1155(
     event.params.altrFractions,
